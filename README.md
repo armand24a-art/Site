@@ -32,7 +32,7 @@
 <body>
     <div class="container">
         <h1>🚀 ¡Hola Mundo!</h1>
-        <p>Esta es mi primera página web publicada con GitHub Pages.</p>
+        <p>Esta es mi primera página web publicada con GitHub, espero poder aprender para hacer mis propias paginasPages.</p>
         <p>¡Bienvenidos!</p>
         <hr>
         <p><small>Hecho con ❤️ y GitHub Pages</small></p>
