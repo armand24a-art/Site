@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nombre Apellido — Curriculum Académico</title>
+<meta name="description" content="Página personal y curriculum académico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Libre+Franklin:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================
+     TOKENS DE DISEÑO
+     ============================================ */
+  :root{
+    --ink:        #182338;   /* fondo, casi negro-azulado */
+    --ink-soft:   #223052;
+    --paper:      #EDE6D6;   /* pergamino de la ficha */
+    --paper-dark: #E0D7C2;
+    --text-main:  #1B2A4A;   /* tinta sobre papel */
+    --text-soft:  #5B5847;
+    --ochre:      #C1861F;   /* sello de tinta ámbar */
+    --ochre-dark: #96660F;
+    --teal:       #3E6E63;   /* verdigris para enlaces/hover */
+    --line:       #C8BCA0;
+
+    --display: 'Fraunces', serif;
+    --body:    'Libre Franklin', sans-serif;
+    --mono:    'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(193,134,31,0.06), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(62,110,99,0.08), transparent 45%);
+    color: var(--text-main);
+    font-family: var(--body);
+    min-height: 100vh;
+  }
+
+  a{ color: inherit; }
+
+  /* focus visible accesible */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--ochre);
+    outline-offset: 2px;
+  }
+
+  /* ============================================
+     ENCABEZADO
+     ============================================ */
+  .site-header{
+    padding: 2.5rem 1.5rem 1.25rem;
+    text-align: center;
+    color: var(--paper);
+  }
+  .site-header .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ochre);
+    margin: 0 0 0.6rem;
+  }
+  .site-header h1{
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.01em;
+  }
+  .site-header p.role{
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 1rem;
+    color: #C9CDD8;
+    margin: 0;
+  }
+
+  /* ============================================
+     TARJETERO — layout principal
+     ============================================ */
+  .catalog{
+    max-width: 1180px;
+    margin: 1.5rem auto 4rem;
+    padding: 0 1.25rem;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  /* --- Guías del tarjetero (navegación) --- */
+  nav.drawer{
+    background: var(--ink-soft);
+    border: 1px solid rgba(237,230,214,0.12);
+    border-radius: 6px;
+    padding: 0.6rem;
+    position: sticky;
+    top: 1.25rem;
+  }
+  nav.drawer .drawer-label{
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8891A6;
+    padding: 0.5rem 0.65rem 0.35rem;
+  }
+  nav.drawer ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav.drawer button.tab{
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    width: 100%;
+    cursor: pointer;
+    padding: 0.62rem 0.65rem;
+    border-radius: 4px;
+    color: #D7DAE2;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  }
+  nav.drawer button.tab:hover{
+    background: rgba(193,134,31,0.14);
+    color: var(--paper);
+  }
+  nav.drawer button.tab.active{
+    background: var(--ochre);
+    color: #1B1404;
+    font-weight: 600;
+  }
+  nav.drawer button.tab .code{
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    opacity: 0.75;
+    min-width: 2.2em;
+  }
+  nav.drawer button.tab.active .code{ opacity: 1; }
+
+  /* --- Ficha activa (contenido) --- */
+  .card{
+    background: var(--paper);
+    background-image: linear-gradient(180deg, var(--paper) 0%, var(--paper-dark) 100%);
+    border-radius: 4px;
+    box-shadow: 0 24px 48px -18px rgba(0,0,0,0.55), 0 2px 0 rgba(0,0,0,0.15);
+    padding: clamp(1.75rem, 4vw, 3.25rem);
+    position: relative;
+    min-height: 420px;
+    animation: card-in 0.35s ease;
+  }
+  @keyframes card-in{
+    from{ opacity: 0; transform: translateY(6px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  /* perforación estilo ficha de biblioteca */
+  .card::before{
+    content: "";
+    position: absolute;
+    top: 18px; left: 0; right: 0;
+    height: 1px;
+    background: repeating-linear-gradient(
+      to right, var(--line) 0 6px, transparent 6px 14px
+    );
+    opacity: 0.6;
+  }
+
+  .card .stamp{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ochre-dark);
+    border: 1px solid var(--ochre-dark);
+    border-radius: 3px;
+    padding: 0.2rem 0.55rem;
+    margin: 1.5rem 0 1.25rem;
+    transform: rotate(-1.2deg);
+  }
+
+  .card h2{
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    margin: 0 0 1.1rem;
+    color: var(--text-main);
+  }
+
+  .card .content{
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--text-main);
+  }
+  .card .content p{ margin: 0 0 1rem; }
+  .card .content ul{ margin: 0 0 1rem 1.1rem; padding: 0; }
+  .card .content li{ margin-bottom: 0.5rem; }
+  .card .content .muted{
+    color: var(--text-soft);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .card .content strong{ color: var(--text-main); }
+  .card .content a{
+    color: var(--teal);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  .card .content a:hover{ color: var(--ochre-dark); }
+
+  /* placeholder de foto en biografía */
+  .bio-wrap{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+  .bio-photo{
+    width: 150px;
+    height: 190px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: repeating-linear-gradient(45deg, #DCD3BB, #DCD3BB 8px, #D4C9AE 8px, #D4C9AE 16px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-soft);
+    text-align: center;
+    padding: 0.5rem;
+  }
+  @media (max-width: 560px){
+    .bio-wrap{ grid-template-columns: 1fr; }
+    .bio-photo{ width: 120px; height: 150px; }
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 860px){
+    .catalog{
+      grid-template-columns: 1fr;
+    }
+    nav.drawer{
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.35rem;
+    }
+    nav.drawer .drawer-label{ grid-column: 1 / -1; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .card{ animation: none; }
+  }
+
+  /* ============================================
+     PIE
+     ============================================ */
+  footer{
+    text-align: center;
+    color: #7B849A;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 1rem 1rem 2.5rem;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="eyebrow">Curriculum académico · Ficha personal</p>
+  <h1>Nombre Apellido</h1>
+  <p class="role">Área de especialidad · Institución</p>
+</header>
+
+<main class="catalog">
+
+  <!-- ============================================
+       NAVEGACIÓN — "guías del tarjetero"
+       Cada botón abre una sección con data-section
+       ============================================ -->
+  <nav class="drawer" aria-label="Secciones del curriculum">
+    <p class="drawer-label">Fichero · 14 secciones</p>
+    <ul id="tab-list">
+      <li><button class="tab" data-target="biografia"><span class="code">01</span> Biografía</button></li>
+      <li><button class="tab" data-target="trayectoria"><span class="code">02</span> Trayectoria académica</button></li>
+      <li><button class="tab" data-target="experiencia"><span class="code">03</span> Experiencia profesional</button></li>
+      <li><button class="tab" data-target="lineas"><span class="code">04</span> Líneas de investigación</button></li>
+      <li><button class="tab" data-target="proyectos"><span class="code">05</span> Proyectos académicos</button></li>
+      <li><button class="tab" data-target="publicaciones"><span class="code">06</span> Publicaciones</button></li>
+      <li><button class="tab" data-target="libros"><span class="code">07</span> Libros</button></li>
+      <li><button class="tab" data-target="tesis"><span class="code">08</span> Tesis</button></li>
+      <li><button class="tab" data-target="cursos"><span class="code">09</span> Cursos</button></li>
+      <li><button class="tab" data-target="divulgacion"><span class="code">10</span> Divulgación</button></li>
+      <li><button class="tab" data-target="recursos"><span class="code">11</span> Recursos</button></li>
+      <li><button class="tab" data-target="colaboracion"><span class="code">12</span> Colaboración</button></li>
+      <li><button class="tab" data-target="reconocimientos"><span class="code">13</span> Reconocimientos</button></li>
+      <li><button class="tab" data-target="contacto"><span class="code">14</span> Contacto</button></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================
+       FICHA — contenido de cada sección
+       Para editar: cambia el texto dentro de cada
+       <div class="content"> ... </div>
+       ============================================ -->
+  <section class="card">
+
+    <article id="biografia" class="section-content">
+      <span class="stamp">Ficha 01 · Biografía</span>
+      <h2>Biografía</h2>
+      <div class="content bio-wrap">
+        <div class="bio-photo">FOTO<br>150 × 190 px</div>
+        <div>
+          <p>
+            Escribe aquí tu biografía: quién eres, tu formación principal,
+            tu área de especialidad y qué te motiva profesionalmente.
+            Este es el texto que aparece primero al abrir la página.
+          </p>
+          <p>
+            Puedes agregar un segundo párrafo con tu trayectoria general,
+            institución actual y línea de trabajo.
+          </p>
+          <p class="muted">Sugerencia: 2–4 párrafos suelen ser suficientes para esta sección.</p>
+        </div>
+      </div>
+    </article>
+
+    <article id="trayectoria" class="section-content" hidden>
+      <span class="stamp">Ficha 02 · Trayectoria académica</span>
+      <h2>Trayectoria académica</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Doctorado</strong> — Institución, año. Título de la tesis.</li>
+          <li><strong>Maestría</strong> — Institución, año. Título de la tesis.</li>
+          <li><strong>Licenciatura</strong> — Institución, año.</li>
+        </ul>
+        <p class="muted">Agrega o elimina elementos de la lista según tu formación.</p>
+      </div>
+    </article>
+
+    <article id="experiencia" class="section-content" hidden>
+      <span class="stamp">Ficha 03 · Experiencia profesional</span>
+      <h2>Experiencia profesional</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Puesto</strong> — Institución, periodo (ej. 2020–presente). Breve descripción de responsabilidades.</li>
+          <li><strong>Puesto anterior</strong> — Institución, periodo. Breve descripción.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="lineas" class="section-content" hidden>
+      <span class="stamp">Ficha 04 · Líneas de investigación</span>
+      <h2>Líneas de investigación</h2>
+      <div class="content">
+        <ul>
+          <li>Nombre de la línea de investigación 1 — breve descripción.</li>
+          <li>Nombre de la línea de investigación 2 — breve descripción.</li>
+          <li>Nombre de la línea de investigación 3 — breve descripción.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="proyectos" class="section-content" hidden>
+      <span class="stamp">Ficha 05 · Proyectos académicos</span>
+      <h2>Proyectos académicos</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Nombre del proyecto</strong> — financiamiento/institución, periodo. Descripción breve.</li>
+          <li><strong>Nombre del proyecto</strong> — financiamiento/institución, periodo. Descripción breve.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="publicaciones" class="section-content" hidden>
+      <span class="stamp">Ficha 06 · Publicaciones</span>
+      <h2>Publicaciones</h2>
+      <div class="content">
+        <ul>
+          <li>Apellido, N. (Año). Título del artículo. <em>Nombre de la revista</em>, volumen(número), páginas.</li>
+          <li>Apellido, N. (Año). Título del artículo. <em>Nombre de la revista</em>, volumen(número), páginas.</li>
+        </ul>
+        <p class="muted">Recomendado: orden cronológico descendente (más reciente primero).</p>
+      </div>
+    </article>
+
+    <article id="libros" class="section-content" hidden>
+      <span class="stamp">Ficha 07 · Libros</span>
+      <h2>Libros</h2>
+      <div class="content">
+        <ul>
+          <li>Apellido, N. (Año). <em>Título del libro</em>. Editorial.</li>
+          <li>Apellido, N. (Año). <em>Título del capítulo</em>. En Título del libro (pp. xx–xx). Editorial.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="tesis" class="section-content" hidden>
+      <span class="stamp">Ficha 08 · Tesis</span>
+      <h2>Tesis dirigidas</h2>
+      <div class="content">
+        <ul>
+          <li>Nombre del estudiante — "Título de la tesis", nivel (licenciatura/maestría/doctorado), institución, año.</li>
+          <li>Nombre del estudiante — "Título de la tesis", nivel, institución, año.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="cursos" class="section-content" hidden>
+      <span class="stamp">Ficha 09 · Cursos</span>
+      <h2>Cursos impartidos</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Nombre del curso</strong> — nivel, institución, periodo.</li>
+          <li><strong>Nombre del curso</strong> — nivel, institución, periodo.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="divulgacion" class="section-content" hidden>
+      <span class="stamp">Ficha 10 · Divulgación</span>
+      <h2>Divulgación</h2>
+      <div class="content">
+        <ul>
+          <li>Conferencia, entrevista o participación en medios — nombre del medio/evento, año.</li>
+          <li>Artículo de divulgación — nombre del medio, año.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="recursos" class="section-content" hidden>
+      <span class="stamp">Ficha 11 · Recursos</span>
+      <h2>Recursos</h2>
+      <div class="content">
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Nombre del recurso o material descargable</a> — breve descripción.</li>
+          <li><a href="#" target="_blank" rel="noopener">Nombre del recurso o material descargable</a> — breve descripción.</li>
+        </ul>
+        <p class="muted">Sustituye el "#" por el enlace real de cada recurso (PDF, repositorio, etc.).</p>
+      </div>
+    </article>
+
+    <article id="colaboracion" class="section-content" hidden>
+      <span class="stamp">Ficha 12 · Colaboración</span>
+      <h2>Colaboración</h2>
+      <div class="content">
+        <ul>
+          <li>Red o grupo de investigación — institución, rol, periodo.</li>
+          <li>Colaboración interinstitucional — descripción breve.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="reconocimientos" class="section-content" hidden>
+      <span class="stamp">Ficha 13 · Reconocimientos</span>
+      <h2>Reconocimientos</h2>
+      <div class="content">
+        <ul>
+          <li>Nombre del reconocimiento o distinción — institución que lo otorga, año.</li>
+          <li>Nombre del reconocimiento o distinción — institución que lo otorga, año.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article id="contacto" class="section-content" hidden>
+      <span class="stamp">Ficha 14 · Contacto</span>
+      <h2>Contacto</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Correo:</strong> <a href="mailto:tucorreo@institucion.edu">tucorreo@institucion.edu</a></li>
+          <li><strong>Institución:</strong> Nombre de la institución, departamento.</li>
+          <li><strong>Perfil académico:</strong> <a href="#" target="_blank" rel="noopener">enlace a ORCID / Google Scholar / ResearchGate</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>
+  Página personal — hospedada con GitHub Pages
+</footer>
+
+<script>
+  // ============================================
+  // Navegación entre secciones (sin recargar la página)
+  // ============================================
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('.section-content');
+
+  function showSection(id){
+    sections.forEach(sec => sec.hidden = (sec.id !== id));
+    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === id));
+    // actualiza el hash en la URL para permitir enlaces directos
+    history.replaceState(null, '', '#' + id);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      showSection(tab.dataset.target);
+      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Al cargar: abre la sección indicada en el hash de la URL,
+  // o "biografia" por defecto (página de inicio)
+  const initial = window.location.hash.replace('#', '');
+  const validIds = Array.from(sections).map(s => s.id);
+  showSection(validIds.includes(initial) ? initial : 'biografia');
+</script>
+
+</body>
+</html>
