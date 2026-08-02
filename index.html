@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Nombre Apellido — Curriculum Académico</title>
-<meta name="description" content="Página personal y curriculum académico">
+<title>Armando Avalos Jiménez — Curriculum Académico</title>
+<meta name="description" content="Página personal y curriculum académico de Armando Avalos Jiménez, Doctor en Ciencias Ambientales, El Colegio de la Frontera Sur (ECOSUR)">
 <meta name="theme-color" content="#0A0E17">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -167,6 +167,26 @@
     font-size: clamp(0.95rem, 2vw, 1.1rem);
     color: var(--text-soft);
     margin: 0;
+  }
+  .site-header .header-links{
+    margin: 0.85rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .site-header .header-links a{
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .site-header .header-links a:hover{
+    color: var(--amber);
+    border-bottom-color: var(--amber);
   }
 
   /* ============================================
@@ -489,8 +509,16 @@
 
 <header class="site-header">
   <span class="eyebrow"><span class="dot"></span> Registro académico activo · 14 archivos</span>
-  <h1>Nombre Apellido</h1>
-  <p class="role">Área de especialidad · Institución</p>
+  <h1>Armando Avalos Jiménez</h1>
+  <p class="role">Doctor en Ciencias Ambientales · El Colegio de la Frontera Sur (ECOSUR), Unidad Villahermosa</p>
+  <p class="role" style="margin-top:0.35rem;">Departamento de Observación y Estudio de la Tierra, la Atmósfera y el Océano</p>
+  <p class="header-links">
+    <a href="https://drive.google.com/file/d/1sUa30ZwJHnUfer-L4dBQ7hiKbMzVg06z/view?usp=drive_link" target="_blank" rel="noopener">CVU 479012</a>
+    <span aria-hidden="true">·</span>
+    <a href="https://www.ecosur.mx/academico/armandoavalos" target="_blank" rel="noopener">Perfil en ECOSUR</a>
+    <span aria-hidden="true">·</span>
+    <a href="https://www.ecosur.mx/departamento/tao" target="_blank" rel="noopener">Departamento TAO</a>
+  </p>
 </header>
 
 <main class="catalog">
