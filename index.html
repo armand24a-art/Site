@@ -369,20 +369,66 @@
     font-size: 0.92rem;
   }
   .card .content strong{ color: var(--text-main); }
-  .card .content h3{
+
+  /* --- Líneas de investigación: lista con acordeón --- */
+  .research-list{
+    display: flex;
+    flex-direction: column;
+  }
+  details.research-block{
+    border-bottom: 1px solid var(--border);
+  }
+  details.research-block:last-child{ border-bottom: none; }
+
+  details.research-block summary{
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 0;
     font-family: var(--display);
     font-weight: 600;
-    font-size: 1.15rem;
+    font-size: 1.02rem;
+    color: var(--text-main);
+  }
+  details.research-block summary::-webkit-details-marker{ display: none; }
+  details.research-block summary::marker{ content: ""; }
+
+  details.research-block summary .line-action{
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--teal);
-    margin: 1.75rem 0 0.6rem;
-    padding-top: 1.1rem;
-    border-top: 1px solid var(--border);
+    border: 1px solid rgba(52,232,206,0.35);
+    background: var(--teal-dim);
+    border-radius: 999px;
+    padding: 0.3rem 0.55rem 0.3rem 0.75rem;
+    transition: background 0.2s ease, color 0.2s ease;
   }
-  .card .content .research-block:first-of-type h3{
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
+  details.research-block[open] summary .line-action{
+    background: var(--amber-dim);
+    color: var(--amber);
+    border-color: rgba(245,166,35,0.4);
   }
+  details.research-block summary .line-action svg{
+    width: 14px; height: 14px;
+    transition: transform 0.25s ease;
+  }
+  details.research-block[open] summary .line-action svg{ transform: rotate(45deg); }
+
+  details.research-block .desc{
+    padding: 0 0 1.5rem;
+    animation: card-in 0.3s ease;
+  }
+  details.research-block .desc h4{ margin-top: 1.1rem; }
+  details.research-block .desc h4:first-child{ margin-top: 0; }
   .card .content h4{
     font-family: var(--body);
     font-weight: 600;
@@ -725,212 +771,246 @@
       <span class="stamp">04 · Líneas de investigación</span>
       <h2>Líneas de investigación</h2>
       <div class="content">
+        <p class="muted">Toca "Ver descripción" en cualquier línea para desplegar el detalle completo.</p>
 
-        <div class="research-block">
-        <h3>Teledetección (T)</h3>
-        <p>
-          El análisis con teledetección implica el uso de imágenes capturadas por sensores remotos
-          (satélites, drones, aviones) para estudiar y monitorear las características geográficas y
-          ambientales de la superficie terrestre. Esta técnica permite obtener información detallada
-          sobre el uso del suelo, la cobertura vegetal, la calidad del agua, los cambios en el paisaje,
-          la urbanización, la deforestación, las áreas agrícolas, entre otros, sin necesidad de
-          intervención directa en el terreno.
-        </p>
-        <h4>Pasos en un análisis con teledetección</h4>
-        <ul>
-          <li><strong>Captura de imágenes:</strong> se utilizan sensores remotos para obtener imágenes de la superficie terrestre en diferentes bandas del espectro electromagnético (visible, infrarrojo, térmico).</li>
-          <li><strong>Procesamiento de datos:</strong> las imágenes se procesan mediante software especializado para mejorar la calidad de los datos, corregir distorsiones y extraer información relevante.</li>
-          <li><strong>Clasificación y análisis:</strong> se clasifica la información obtenida en categorías (tipos de vegetación, uso del suelo, zonas afectadas por desastres), apoyándose en algoritmos de aprendizaje automático para identificar patrones.</li>
-          <li><strong>Interpretación de resultados:</strong> los datos procesados se analizan para extraer conclusiones sobre el estado del medio ambiente, los recursos naturales, el cambio climático o el desarrollo urbano.</li>
-          <li><strong>Toma de decisiones:</strong> los resultados se utilizan para la planificación urbana, la gestión de recursos naturales, la prevención de desastres y la toma de decisiones en políticas públicas.</li>
-        </ul>
-        <h4>Aplicaciones</h4>
-        <ul>
-          <li>Monitoreo de cultivos: evaluar el estado de salud de los cultivos y detectar enfermedades o plagas.</li>
-          <li>Gestión de recursos naturales: monitorear bosques, cuerpos de agua y áreas protegidas.</li>
-          <li>Cambio climático: observar cambios en la temperatura, la cobertura de nieve o el nivel del mar.</li>
-          <li>Desastres naturales: detectar áreas afectadas por inundaciones, incendios forestales o terremotos.</li>
-          <li>Urbanización: analizar la expansión de las ciudades y el uso del suelo.</li>
-        </ul>
+        <div class="research-list">
+
+        <details class="research-block">
+          <summary>
+            <span>Teledetección (T)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              El análisis con teledetección implica el uso de imágenes capturadas por sensores remotos
+              (satélites, drones, aviones) para estudiar y monitorear las características geográficas y
+              ambientales de la superficie terrestre. Esta técnica permite obtener información detallada
+              sobre el uso del suelo, la cobertura vegetal, la calidad del agua, los cambios en el paisaje,
+              la urbanización, la deforestación, las áreas agrícolas, entre otros, sin necesidad de
+              intervención directa en el terreno.
+            </p>
+            <h4>Pasos en un análisis con teledetección</h4>
+            <ul>
+              <li><strong>Captura de imágenes:</strong> se utilizan sensores remotos para obtener imágenes de la superficie terrestre en diferentes bandas del espectro electromagnético (visible, infrarrojo, térmico).</li>
+              <li><strong>Procesamiento de datos:</strong> las imágenes se procesan mediante software especializado para mejorar la calidad de los datos, corregir distorsiones y extraer información relevante.</li>
+              <li><strong>Clasificación y análisis:</strong> se clasifica la información obtenida en categorías (tipos de vegetación, uso del suelo, zonas afectadas por desastres), apoyándose en algoritmos de aprendizaje automático para identificar patrones.</li>
+              <li><strong>Interpretación de resultados:</strong> los datos procesados se analizan para extraer conclusiones sobre el estado del medio ambiente, los recursos naturales, el cambio climático o el desarrollo urbano.</li>
+              <li><strong>Toma de decisiones:</strong> los resultados se utilizan para la planificación urbana, la gestión de recursos naturales, la prevención de desastres y la toma de decisiones en políticas públicas.</li>
+            </ul>
+            <h4>Aplicaciones</h4>
+            <ul>
+              <li>Monitoreo de cultivos: evaluar el estado de salud de los cultivos y detectar enfermedades o plagas.</li>
+              <li>Gestión de recursos naturales: monitorear bosques, cuerpos de agua y áreas protegidas.</li>
+              <li>Cambio climático: observar cambios en la temperatura, la cobertura de nieve o el nivel del mar.</li>
+              <li>Desastres naturales: detectar áreas afectadas por inundaciones, incendios forestales o terremotos.</li>
+              <li>Urbanización: analizar la expansión de las ciudades y el uso del suelo.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="research-block">
+          <summary>
+            <span>Análisis Espacial del Territorio (AET)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              El análisis espacial del territorio es un proceso que permite estudiar y comprender la
+              distribución, las relaciones y las interacciones de diversos elementos dentro de un espacio
+              geográfico. Se trata de un enfoque multidisciplinario que integra información sobre el uso del
+              suelo, los recursos naturales, la infraestructura, la demografía y otros factores importantes,
+              con el fin de tomar decisiones más informadas y eficaces en la planificación, gestión y
+              desarrollo del territorio, apoyado en Geografía, Geoinformática (SIG) y Cartografía.
+            </p>
+            <h4>Objetivos</h4>
+            <ul>
+              <li>Identificación de patrones geográficos en la distribución espacial de recursos, población e infraestructuras.</li>
+              <li>Mejora de la planificación en urbanismo, agricultura, protección ambiental y uso de recursos naturales.</li>
+              <li>Evaluación de impactos ambientales, sociales y económicos derivados de actividades humanas.</li>
+              <li>Desarrollo de políticas públicas de desarrollo urbano, rural, ambiental y de infraestructura.</li>
+            </ul>
+            <h4>Componentes principales</h4>
+            <ul>
+              <li><strong>Geografía física:</strong> relieve, hidrografía y clima, y su influencia en la actividad humana.</li>
+              <li><strong>Uso del suelo:</strong> clasificación, zonificación y estrategias de conservación y restauración.</li>
+              <li><strong>Infraestructura y equipamiento:</strong> redes de transporte, servicios públicos y telecomunicaciones.</li>
+              <li><strong>Aspectos demográficos:</strong> distribución de la población, estructura social y económica.</li>
+              <li><strong>Recursos naturales:</strong> biodiversidad, minería, agua y energía.</li>
+              <li><strong>Riesgos y vulnerabilidades:</strong> zonas de riesgo ante desastres naturales y capacidad de respuesta.</li>
+            </ul>
+            <h4>Herramientas y métodos</h4>
+            <ul>
+              <li>Sistemas de Información Geográfica (SIG), integrando capas de información para un análisis territorial completo.</li>
+              <li>Teledetección con imágenes satelitales y drones para monitoreo continuo del territorio.</li>
+              <li>Modelos de simulación espacial para predecir el comportamiento futuro del territorio.</li>
+              <li>Análisis estadístico de patrones espaciales, correlaciones y tendencias.</li>
+            </ul>
+            <h4>Aplicaciones</h4>
+            <ul>
+              <li>Planificación urbana: áreas de desarrollo, expansión de infraestructuras y preservación de espacios verdes.</li>
+              <li>Gestión ambiental: áreas protegidas, recarga de acuíferos y bosques.</li>
+              <li>Agricultura y uso de suelo: planificación de cultivos según suelo, clima y disponibilidad de agua.</li>
+              <li>Desastres naturales y resiliencia: zonas vulnerables y políticas de prevención y respuesta.</li>
+              <li>Infraestructura y transporte: redes viales y conectividad entre regiones.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="research-block">
+          <summary>
+            <span>Modelos de Simulación de Escenarios del Crecimiento Urbano (MSECU)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              La simulación del crecimiento urbano es una herramienta utilizada para modelar y predecir cómo
+              se desarrollarán las ciudades en el futuro en función de diferentes variables y escenarios. Se
+              utiliza en la planificación urbana y la gestión territorial para tomar decisiones informadas
+              sobre el uso del suelo, la infraestructura, el transporte y otros aspectos clave.
+            </p>
+            <h4>Tipos de modelos</h4>
+            <ul>
+              <li><strong>Autómatas celulares (CA):</strong> dividen el espacio en una cuadrícula y simulan el cambio de estado de cada celda según reglas predefinidas (proximidad, accesibilidad, características geográficas).</li>
+              <li><strong>Modelos basados en agentes (ABM):</strong> simulan el comportamiento de individuos, empresas o autoridades cuyas decisiones influyen en el crecimiento urbano.</li>
+              <li><strong>Modelos econométricos:</strong> predicen el crecimiento a partir de variables como ingreso, densidad poblacional e inversión en infraestructura.</li>
+              <li><strong>Simulación espacial (SIG):</strong> integra datos espaciales y temporales para visualizar la distribución del crecimiento urbano y evaluar escenarios hipotéticos.</li>
+            </ul>
+            <h4>Variables clave</h4>
+            <ul>
+              <li>Demografía: tasa de crecimiento poblacional y demanda de vivienda y servicios.</li>
+              <li>Economía: empleo, ingresos e inversión en infraestructura.</li>
+              <li>Infraestructura: transporte, energía, agua y alcantarillado.</li>
+              <li>Uso del suelo: disponibilidad de suelo residencial, comercial e industrial.</li>
+              <li>Políticas públicas: urbanismo, zonificación e incentivos fiscales.</li>
+            </ul>
+            <h4>Aplicaciones y herramientas</h4>
+            <ul>
+              <li>Planeación urbana, evaluación de impacto ambiental y gestión del tráfico y transporte.</li>
+              <li>Planeación de vivienda y estrategias de mitigación ante el cambio climático.</li>
+              <li>Software especializado: UrbanSim, modelos LUTI (Land Use and Transport Interaction), herramientas de autómatas celulares, ArcGIS y QGIS.</li>
+            </ul>
+            <p class="muted">
+              Principales desafíos: incertidumbre en los datos demográficos y económicos, la complejidad de
+              modelos con múltiples variables interdependientes, y la escalabilidad al aplicar modelos de
+              pequeña escala a grandes ciudades o regiones.
+            </p>
+          </div>
+        </details>
+
+        <details class="research-block">
+          <summary>
+            <span>Cambios de Cobertura y Usos de Suelo (CCUS)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              Estudia las variaciones en la forma en que se utiliza el suelo y los tipos de cobertura
+              terrestre (bosques, áreas agrícolas, zonas urbanas, cuerpos de agua) en una región a lo largo
+              del tiempo. Es fundamental para comprender las dinámicas del territorio, los efectos del
+              desarrollo humano, el impacto de políticas públicas y la sostenibilidad de los recursos naturales.
+            </p>
+            <h4>Métodos</h4>
+            <ul>
+              <li>Uso de imágenes satelitales (Landsat, Sentinel, entre otras) para medir cambios en la cobertura del suelo con alta precisión.</li>
+              <li>Clasificación supervisada o no supervisada de imágenes mediante software SIG.</li>
+              <li>Análisis temporal comparando imágenes de distintos períodos para identificar tendencias y magnitud de los cambios.</li>
+              <li>Estudios de campo para validar los resultados obtenidos por teledetección.</li>
+            </ul>
+            <h4>Factores impulsores</h4>
+            <ul>
+              <li>Crecimiento urbano y expansión de infraestructura.</li>
+              <li>Expansión agrícola y ganadera, y deforestación.</li>
+              <li>Actividades extractivas como la minería.</li>
+              <li>Cambio climático, alterando patrones de precipitación y temperatura.</li>
+            </ul>
+            <h4>Impactos y aplicaciones</h4>
+            <ul>
+              <li>Pérdida de biodiversidad, degradación del suelo y alteración del ciclo hidrológico.</li>
+              <li>Aumento de emisiones de carbono e impactos en la calidad del aire y el agua.</li>
+              <li>Aplicación en planificación urbana, gestión de recursos naturales, evaluación de políticas ambientales y monitoreo de desastres naturales.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="research-block">
+          <summary>
+            <span>Cuantificación y Monitoreo de Recursos Naturales (CMRN)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              Se refiere a la medición, evaluación y seguimiento continuo de los recursos naturales (agua,
+              suelo, biodiversidad, bosques, minerales, energía) con el fin de gestionarlos de manera
+              sostenible, detectar cambios en su disponibilidad, uso y calidad, y tomar decisiones informadas
+              para su conservación y uso responsable.
+            </p>
+            <h4>Métodos</h4>
+            <ul>
+              <li><strong>Monitoreo satelital y teledetección:</strong> observación de grandes áreas para detectar cambios en uso de suelo, vegetación, agua y bosques.</li>
+              <li><strong>Redes de sensores terrestres:</strong> monitoreo en tiempo real de calidad del aire y agua, temperatura, humedad y composición del suelo.</li>
+              <li><strong>Muestreo y trabajo de campo:</strong> recolección directa de muestras para análisis de laboratorio.</li>
+              <li><strong>Modelos computacionales y simulaciones:</strong> predicción del comportamiento futuro de los recursos bajo distintos escenarios.</li>
+              <li><strong>Monitoreo participativo:</strong> involucramiento de comunidades locales y organizaciones en la recolección de datos.</li>
+            </ul>
+            <h4>Áreas de aplicación</h4>
+            <ul>
+              <li>Agua: calidad, caudales, niveles de acuíferos y eficiencia de uso.</li>
+              <li>Suelo: fertilidad, erosión y desertificación.</li>
+              <li>Biodiversidad: monitoreo de especies y cambios en su distribución.</li>
+              <li>Bosques y vegetación: deforestación, regeneración y almacenamiento de carbono.</li>
+              <li>Energía: generación renovable y no renovable, y consumo energético.</li>
+              <li>Minerales y recursos geológicos: explotación sostenible y su impacto ambiental.</li>
+            </ul>
+            <p class="muted">
+              Beneficios principales: gestión más eficiente de los recursos, prevención y mitigación de
+              desastres, toma de decisiones informadas y planificación a largo plazo.
+            </p>
+          </div>
+        </details>
+
+        <details class="research-block">
+          <summary>
+            <span>Evaluación Multicriterio para la Toma de Decisiones (EMTD)</span>
+            <span class="line-action">Ver descripción <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg></span>
+          </summary>
+          <div class="desc">
+            <p>
+              Herramienta utilizada en la toma de decisiones que permite analizar, comparar y seleccionar
+              alternativas en función de diversos criterios relevantes para el problema evaluado. Se aplica
+              en decisiones complejas que involucran múltiples variables interrelacionadas.
+            </p>
+            <h4>Pasos del proceso</h4>
+            <ul>
+              <li>Definición del problema y de las alternativas posibles.</li>
+              <li>Selección de criterios de evaluación (económicos, ambientales, sociales, técnicos, políticos).</li>
+              <li>Ponderación de los criterios según su relevancia.</li>
+              <li>Evaluación de cada alternativa frente a los criterios seleccionados.</li>
+              <li>Agregación de resultados en un índice de rendimiento por alternativa.</li>
+              <li>Análisis de resultados y de sensibilidad.</li>
+              <li>Toma de decisiones respaldada por el análisis cuantitativo y cualitativo.</li>
+            </ul>
+            <h4>Metodologías utilizadas</h4>
+            <ul>
+              <li>Método de ponderación simple.</li>
+              <li>Proceso Analítico Jerárquico (AHP).</li>
+              <li>TOPSIS (ordenación de preferencia por proximidad a la solución ideal).</li>
+              <li>Método de evaluación de impacto y método de votación por expertos.</li>
+            </ul>
+            <h4>Aplicaciones</h4>
+            <ul>
+              <li>Planeación urbana, gestión de recursos naturales y proyectos de energía.</li>
+              <li>Desarrollo de políticas públicas y gestión de riesgos ante desastres naturales.</li>
+            </ul>
+            <p class="muted">
+              Ventajas: incorpora múltiples perspectivas, facilita la comparación de alternativas complejas y
+              fomenta la transparencia. Limitaciones: la ponderación de criterios puede introducir
+              subjetividad, y la evaluación se vuelve más compleja cuantas más alternativas y criterios se
+              consideran.
+            </p>
+          </div>
+        </details>
+
         </div>
-
-        <div class="research-block">
-        <h3>Análisis Espacial del Territorio (AET)</h3>
-        <p>
-          El análisis espacial del territorio es un proceso que permite estudiar y comprender la
-          distribución, las relaciones y las interacciones de diversos elementos dentro de un espacio
-          geográfico. Se trata de un enfoque multidisciplinario que integra información sobre el uso del
-          suelo, los recursos naturales, la infraestructura, la demografía y otros factores importantes,
-          con el fin de tomar decisiones más informadas y eficaces en la planificación, gestión y
-          desarrollo del territorio, apoyado en Geografía, Geoinformática (SIG) y Cartografía.
-        </p>
-        <h4>Objetivos</h4>
-        <ul>
-          <li>Identificación de patrones geográficos en la distribución espacial de recursos, población e infraestructuras.</li>
-          <li>Mejora de la planificación en urbanismo, agricultura, protección ambiental y uso de recursos naturales.</li>
-          <li>Evaluación de impactos ambientales, sociales y económicos derivados de actividades humanas.</li>
-          <li>Desarrollo de políticas públicas de desarrollo urbano, rural, ambiental y de infraestructura.</li>
-        </ul>
-        <h4>Componentes principales</h4>
-        <ul>
-          <li><strong>Geografía física:</strong> relieve, hidrografía y clima, y su influencia en la actividad humana.</li>
-          <li><strong>Uso del suelo:</strong> clasificación, zonificación y estrategias de conservación y restauración.</li>
-          <li><strong>Infraestructura y equipamiento:</strong> redes de transporte, servicios públicos y telecomunicaciones.</li>
-          <li><strong>Aspectos demográficos:</strong> distribución de la población, estructura social y económica.</li>
-          <li><strong>Recursos naturales:</strong> biodiversidad, minería, agua y energía.</li>
-          <li><strong>Riesgos y vulnerabilidades:</strong> zonas de riesgo ante desastres naturales y capacidad de respuesta.</li>
-        </ul>
-        <h4>Herramientas y métodos</h4>
-        <ul>
-          <li>Sistemas de Información Geográfica (SIG), integrando capas de información para un análisis territorial completo.</li>
-          <li>Teledetección con imágenes satelitales y drones para monitoreo continuo del territorio.</li>
-          <li>Modelos de simulación espacial para predecir el comportamiento futuro del territorio.</li>
-          <li>Análisis estadístico de patrones espaciales, correlaciones y tendencias.</li>
-        </ul>
-        <h4>Aplicaciones</h4>
-        <ul>
-          <li>Planificación urbana: áreas de desarrollo, expansión de infraestructuras y preservación de espacios verdes.</li>
-          <li>Gestión ambiental: áreas protegidas, recarga de acuíferos y bosques.</li>
-          <li>Agricultura y uso de suelo: planificación de cultivos según suelo, clima y disponibilidad de agua.</li>
-          <li>Desastres naturales y resiliencia: zonas vulnerables y políticas de prevención y respuesta.</li>
-          <li>Infraestructura y transporte: redes viales y conectividad entre regiones.</li>
-        </ul>
-        </div>
-
-        <div class="research-block">
-        <h3>Modelos de Simulación de Escenarios del Crecimiento Urbano (MSECU)</h3>
-        <p>
-          La simulación del crecimiento urbano es una herramienta utilizada para modelar y predecir cómo
-          se desarrollarán las ciudades en el futuro en función de diferentes variables y escenarios. Se
-          utiliza en la planificación urbana y la gestión territorial para tomar decisiones informadas
-          sobre el uso del suelo, la infraestructura, el transporte y otros aspectos clave.
-        </p>
-        <h4>Tipos de modelos</h4>
-        <ul>
-          <li><strong>Autómatas celulares (CA):</strong> dividen el espacio en una cuadrícula y simulan el cambio de estado de cada celda según reglas predefinidas (proximidad, accesibilidad, características geográficas).</li>
-          <li><strong>Modelos basados en agentes (ABM):</strong> simulan el comportamiento de individuos, empresas o autoridades cuyas decisiones influyen en el crecimiento urbano.</li>
-          <li><strong>Modelos econométricos:</strong> predicen el crecimiento a partir de variables como ingreso, densidad poblacional e inversión en infraestructura.</li>
-          <li><strong>Simulación espacial (SIG):</strong> integra datos espaciales y temporales para visualizar la distribución del crecimiento urbano y evaluar escenarios hipotéticos.</li>
-        </ul>
-        <h4>Variables clave</h4>
-        <ul>
-          <li>Demografía: tasa de crecimiento poblacional y demanda de vivienda y servicios.</li>
-          <li>Economía: empleo, ingresos e inversión en infraestructura.</li>
-          <li>Infraestructura: transporte, energía, agua y alcantarillado.</li>
-          <li>Uso del suelo: disponibilidad de suelo residencial, comercial e industrial.</li>
-          <li>Políticas públicas: urbanismo, zonificación e incentivos fiscales.</li>
-        </ul>
-        <h4>Aplicaciones y herramientas</h4>
-        <ul>
-          <li>Planeación urbana, evaluación de impacto ambiental y gestión del tráfico y transporte.</li>
-          <li>Planeación de vivienda y estrategias de mitigación ante el cambio climático.</li>
-          <li>Software especializado: UrbanSim, modelos LUTI (Land Use and Transport Interaction), herramientas de autómatas celulares, ArcGIS y QGIS.</li>
-        </ul>
-        <p class="muted">
-          Principales desafíos: incertidumbre en los datos demográficos y económicos, la complejidad de
-          modelos con múltiples variables interdependientes, y la escalabilidad al aplicar modelos de
-          pequeña escala a grandes ciudades o regiones.
-        </p>
-        </div>
-
-        <div class="research-block">
-        <h3>Cambios de Cobertura y Usos de Suelo (CCUS)</h3>
-        <p>
-          Estudia las variaciones en la forma en que se utiliza el suelo y los tipos de cobertura
-          terrestre (bosques, áreas agrícolas, zonas urbanas, cuerpos de agua) en una región a lo largo
-          del tiempo. Es fundamental para comprender las dinámicas del territorio, los efectos del
-          desarrollo humano, el impacto de políticas públicas y la sostenibilidad de los recursos naturales.
-        </p>
-        <h4>Métodos</h4>
-        <ul>
-          <li>Uso de imágenes satelitales (Landsat, Sentinel, entre otras) para medir cambios en la cobertura del suelo con alta precisión.</li>
-          <li>Clasificación supervisada o no supervisada de imágenes mediante software SIG.</li>
-          <li>Análisis temporal comparando imágenes de distintos períodos para identificar tendencias y magnitud de los cambios.</li>
-          <li>Estudios de campo para validar los resultados obtenidos por teledetección.</li>
-        </ul>
-        <h4>Factores impulsores</h4>
-        <ul>
-          <li>Crecimiento urbano y expansión de infraestructura.</li>
-          <li>Expansión agrícola y ganadera, y deforestación.</li>
-          <li>Actividades extractivas como la minería.</li>
-          <li>Cambio climático, alterando patrones de precipitación y temperatura.</li>
-        </ul>
-        <h4>Impactos y aplicaciones</h4>
-        <ul>
-          <li>Pérdida de biodiversidad, degradación del suelo y alteración del ciclo hidrológico.</li>
-          <li>Aumento de emisiones de carbono e impactos en la calidad del aire y el agua.</li>
-          <li>Aplicación en planificación urbana, gestión de recursos naturales, evaluación de políticas ambientales y monitoreo de desastres naturales.</li>
-        </ul>
-        </div>
-
-        <div class="research-block">
-        <h3>Cuantificación y Monitoreo de Recursos Naturales (CMRN)</h3>
-        <p>
-          Se refiere a la medición, evaluación y seguimiento continuo de los recursos naturales (agua,
-          suelo, biodiversidad, bosques, minerales, energía) con el fin de gestionarlos de manera
-          sostenible, detectar cambios en su disponibilidad, uso y calidad, y tomar decisiones informadas
-          para su conservación y uso responsable.
-        </p>
-        <h4>Métodos</h4>
-        <ul>
-          <li><strong>Monitoreo satelital y teledetección:</strong> observación de grandes áreas para detectar cambios en uso de suelo, vegetación, agua y bosques.</li>
-          <li><strong>Redes de sensores terrestres:</strong> monitoreo en tiempo real de calidad del aire y agua, temperatura, humedad y composición del suelo.</li>
-          <li><strong>Muestreo y trabajo de campo:</strong> recolección directa de muestras para análisis de laboratorio.</li>
-          <li><strong>Modelos computacionales y simulaciones:</strong> predicción del comportamiento futuro de los recursos bajo distintos escenarios.</li>
-          <li><strong>Monitoreo participativo:</strong> involucramiento de comunidades locales y organizaciones en la recolección de datos.</li>
-        </ul>
-        <h4>Áreas de aplicación</h4>
-        <ul>
-          <li>Agua: calidad, caudales, niveles de acuíferos y eficiencia de uso.</li>
-          <li>Suelo: fertilidad, erosión y desertificación.</li>
-          <li>Biodiversidad: monitoreo de especies y cambios en su distribución.</li>
-          <li>Bosques y vegetación: deforestación, regeneración y almacenamiento de carbono.</li>
-          <li>Energía: generación renovable y no renovable, y consumo energético.</li>
-          <li>Minerales y recursos geológicos: explotación sostenible y su impacto ambiental.</li>
-        </ul>
-        <p class="muted">
-          Beneficios principales: gestión más eficiente de los recursos, prevención y mitigación de
-          desastres, toma de decisiones informadas y planificación a largo plazo.
-        </p>
-        </div>
-
-        <div class="research-block">
-        <h3>Evaluación Multicriterio para la Toma de Decisiones (EMTD)</h3>
-        <p>
-          Herramienta utilizada en la toma de decisiones que permite analizar, comparar y seleccionar
-          alternativas en función de diversos criterios relevantes para el problema evaluado. Se aplica
-          en decisiones complejas que involucran múltiples variables interrelacionadas.
-        </p>
-        <h4>Pasos del proceso</h4>
-        <ul>
-          <li>Definición del problema y de las alternativas posibles.</li>
-          <li>Selección de criterios de evaluación (económicos, ambientales, sociales, técnicos, políticos).</li>
-          <li>Ponderación de los criterios según su relevancia.</li>
-          <li>Evaluación de cada alternativa frente a los criterios seleccionados.</li>
-          <li>Agregación de resultados en un índice de rendimiento por alternativa.</li>
-          <li>Análisis de resultados y de sensibilidad.</li>
-          <li>Toma de decisiones respaldada por el análisis cuantitativo y cualitativo.</li>
-        </ul>
-        <h4>Metodologías utilizadas</h4>
-        <ul>
-          <li>Método de ponderación simple.</li>
-          <li>Proceso Analítico Jerárquico (AHP).</li>
-          <li>TOPSIS (ordenación de preferencia por proximidad a la solución ideal).</li>
-          <li>Método de evaluación de impacto y método de votación por expertos.</li>
-        </ul>
-        <h4>Aplicaciones</h4>
-        <ul>
-          <li>Planeación urbana, gestión de recursos naturales y proyectos de energía.</li>
-          <li>Desarrollo de políticas públicas y gestión de riesgos ante desastres naturales.</li>
-        </ul>
-        <p class="muted">
-          Ventajas: incorpora múltiples perspectivas, facilita la comparación de alternativas complejas y
-          fomenta la transparencia. Limitaciones: la ponderación de criterios puede introducir
-          subjetividad, y la evaluación se vuelve más compleja cuantas más alternativas y criterios se
-          consideran.
-        </p>
-        </div>
-
       </div>
     </article>
 
