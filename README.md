@@ -1,7 +1,22 @@
 # Página personal / Curriculum académico
 
-Sitio de una sola página (`index.html`) con 14 secciones tipo "fichero" a las que se accede
-desde el menú lateral. La sección de inicio es **Biografía**.
+Sitio de una sola página (`index.html`) con 14 secciones a las que se accede desde un
+panel de navegación con iconos, estilo "panel de datos" (glassmorphism, acentos
+luminosos, fondo con degradados en movimiento). La sección de inicio es **Biografía**.
+
+## Comportamiento por dispositivo
+
+El sitio se adapta automáticamente al ancho de la pantalla:
+
+- **Laptop / escritorio (> 1024px):** rail de navegación vertical fijo a la izquierda,
+  con un indicador luminoso que se desliza entre secciones.
+- **Tablet (641px – 1024px):** el rail se convierte en una tira horizontal
+  desplazable en la parte superior.
+- **Celular (≤ 640px):** la navegación se convierte en un dock inferior fijo tipo
+  app, solo con iconos, desplazable horizontalmente.
+
+No necesitas configurar nada para esto: el CSS usa `@media queries` que detectan
+el ancho de la ventana automáticamente.
 
 ## Estructura de secciones (14)
 

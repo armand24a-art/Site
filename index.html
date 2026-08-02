@@ -2,247 +2,381 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Nombre Apellido — Curriculum Académico</title>
 <meta name="description" content="Página personal y curriculum académico">
+<meta name="theme-color" content="#0A0E17">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Libre+Franklin:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   /* ============================================
      TOKENS DE DISEÑO
      ============================================ */
   :root{
-    --ink:        #182338;   /* fondo, casi negro-azulado */
-    --ink-soft:   #223052;
-    --paper:      #EDE6D6;   /* pergamino de la ficha */
-    --paper-dark: #E0D7C2;
-    --text-main:  #1B2A4A;   /* tinta sobre papel */
-    --text-soft:  #5B5847;
-    --ochre:      #C1861F;   /* sello de tinta ámbar */
-    --ochre-dark: #96660F;
-    --teal:       #3E6E63;   /* verdigris para enlaces/hover */
-    --line:       #C8BCA0;
+    --bg-0:        #0A0E17;   /* fondo base, casi negro */
+    --bg-1:        #10152280;
+    --panel:       rgba(255,255,255,0.045);
+    --panel-solid: #131826;
+    --border:      rgba(255,255,255,0.09);
+    --border-hi:   rgba(255,255,255,0.18);
+    --text-main:   #EDEFF5;
+    --text-soft:   #9AA3B8;
+    --text-dim:    #626C82;
 
-    --display: 'Fraunces', serif;
-    --body:    'Libre Franklin', sans-serif;
+    --teal:        #34E8CE;   /* acento primario — señal digital */
+    --teal-dim:    rgba(52,232,206,0.14);
+    --amber:       #F5A623;   /* acento secundario */
+    --amber-dim:   rgba(245,166,35,0.14);
+    --violet:      #8C7CFF;   /* acento terciario, orbes de fondo */
+
+    --display: 'Space Grotesk', sans-serif;
+    --body:    'Inter', sans-serif;
     --mono:    'IBM Plex Mono', monospace;
+
+    --radius: 14px;
   }
 
   *{ box-sizing: border-box; }
   html{ scroll-behavior: smooth; }
 
   body{
-    margin:0;
-    background: var(--ink);
-    background-image:
-      radial-gradient(circle at 15% 10%, rgba(193,134,31,0.06), transparent 40%),
-      radial-gradient(circle at 85% 90%, rgba(62,110,99,0.08), transparent 45%);
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--bg-0);
     color: var(--text-main);
     font-family: var(--body);
-    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
   }
 
   a{ color: inherit; }
+  ::selection{ background: var(--teal-dim); color: var(--teal); }
 
-  /* focus visible accesible */
   a:focus-visible, button:focus-visible{
-    outline: 2px solid var(--ochre);
+    outline: 2px solid var(--teal);
     outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ============================================
+     FONDO AMBIENTAL — orbes con degradado en movimiento
+     ============================================ */
+  .aurora{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .aurora span{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    animation: float 22s ease-in-out infinite;
+  }
+  .aurora span:nth-child(1){
+    width: 520px; height: 520px;
+    top: -180px; left: -140px;
+    background: var(--teal);
+    animation-delay: 0s;
+  }
+  .aurora span:nth-child(2){
+    width: 460px; height: 460px;
+    bottom: -200px; right: -120px;
+    background: var(--violet);
+    animation-delay: -8s;
+  }
+  .aurora span:nth-child(3){
+    width: 320px; height: 320px;
+    top: 40%; right: 20%;
+    background: var(--amber);
+    opacity: 0.18;
+    animation-delay: -14s;
+  }
+  @keyframes float{
+    0%, 100%{ transform: translate(0,0) scale(1); }
+    50%{ transform: translate(40px,-30px) scale(1.08); }
+  }
+  .grid-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
   }
 
   /* ============================================
      ENCABEZADO
      ============================================ */
   .site-header{
-    padding: 2.5rem 1.5rem 1.25rem;
+    position: relative;
+    z-index: 1;
+    padding: clamp(2.25rem, 6vw, 3.5rem) 1.25rem 1.5rem;
     text-align: center;
-    color: var(--paper);
   }
   .site-header .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: var(--mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ochre);
-    margin: 0 0 0.6rem;
+    color: var(--teal);
+    background: var(--teal-dim);
+    border: 1px solid rgba(52,232,206,0.3);
+    border-radius: 999px;
+    padding: 0.32rem 0.85rem;
+    margin: 0 0 1.1rem;
+  }
+  .site-header .eyebrow .dot{
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 8px 1px var(--teal);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%, 100%{ opacity: 1; transform: scale(1); }
+    50%{ opacity: 0.4; transform: scale(0.75); }
   }
   .site-header h1{
     font-family: var(--display);
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-size: clamp(2rem, 5vw, 3.1rem);
-    margin: 0 0 0.35rem;
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    font-size: clamp(2.1rem, 6vw, 3.6rem);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(100deg, #FFFFFF 20%, var(--teal) 60%, var(--violet) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .site-header p.role{
     font-family: var(--body);
-    font-weight: 300;
-    font-size: 1rem;
-    color: #C9CDD8;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text-soft);
     margin: 0;
   }
 
   /* ============================================
-     TARJETERO — layout principal
+     LAYOUT PRINCIPAL
      ============================================ */
   .catalog{
-    max-width: 1180px;
-    margin: 1.5rem auto 4rem;
+    position: relative;
+    z-index: 1;
+    max-width: 1220px;
+    margin: 0.5rem auto 5rem;
     padding: 0 1.25rem;
     display: grid;
     grid-template-columns: 250px 1fr;
-    gap: 1.75rem;
+    gap: 1.5rem;
     align-items: start;
   }
 
-  /* --- Guías del tarjetero (navegación) --- */
+  /* --- Navegación (rail vertical en laptop) --- */
   nav.drawer{
-    background: var(--ink-soft);
-    border: 1px solid rgba(237,230,214,0.12);
-    border-radius: 6px;
-    padding: 0.6rem;
+    background: var(--panel);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 0.6rem;
     position: sticky;
     top: 1.25rem;
   }
   nav.drawer .drawer-label{
     font-family: var(--mono);
     font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #8891A6;
-    padding: 0.5rem 0.65rem 0.35rem;
+    color: var(--text-dim);
+    padding: 0.4rem 0.6rem 0.7rem;
   }
-  nav.drawer ul{
+
+  .nav-list{
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    position: relative;
   }
-  nav.drawer button.tab{
+
+  .nav-indicator{
+    position: absolute;
+    left: 0; top: 0;
+    border-radius: 9px;
+    background: linear-gradient(120deg, var(--teal-dim), var(--amber-dim));
+    border: 1px solid rgba(52,232,206,0.35);
+    box-shadow: 0 0 22px -4px rgba(52,232,206,0.35);
+    transition: transform 0.32s cubic-bezier(.22,1,.36,1), width 0.32s cubic-bezier(.22,1,.36,1), height 0.32s cubic-bezier(.22,1,.36,1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  button.tab{
     all: unset;
     box-sizing: border-box;
+    position: relative;
+    z-index: 1;
     display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.65rem;
     width: 100%;
     cursor: pointer;
-    padding: 0.62rem 0.65rem;
-    border-radius: 4px;
-    color: #D7DAE2;
+    padding: 0.58rem 0.65rem;
+    border-radius: 9px;
+    color: var(--text-soft);
     font-family: var(--body);
-    font-size: 0.9rem;
-    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    font-weight: 500;
+    font-size: 0.88rem;
+    transition: color 0.2s ease;
+    white-space: nowrap;
   }
-  nav.drawer button.tab:hover{
-    background: rgba(193,134,31,0.14);
-    color: var(--paper);
-  }
-  nav.drawer button.tab.active{
-    background: var(--ochre);
-    color: #1B1404;
-    font-weight: 600;
-  }
-  nav.drawer button.tab .code{
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    opacity: 0.75;
-    min-width: 2.2em;
-  }
-  nav.drawer button.tab.active .code{ opacity: 1; }
+  button.tab:hover{ color: var(--text-main); }
+  button.tab.active{ color: var(--text-main); }
 
-  /* --- Ficha activa (contenido) --- */
+  button.tab .icon{
+    flex: none;
+    width: 18px; height: 18px;
+    display: grid;
+    place-items: center;
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+  button.tab:hover .icon,
+  button.tab.active .icon{ color: var(--teal); }
+  button.tab .icon svg{ width: 100%; height: 100%; }
+
+  button.tab .code{
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    color: var(--text-dim);
+    margin-left: auto;
+    flex: none;
+  }
+  button.tab.active .code{ color: var(--amber); }
+
+  /* --- Panel de contenido --- */
   .card{
-    background: var(--paper);
-    background-image: linear-gradient(180deg, var(--paper) 0%, var(--paper-dark) 100%);
-    border-radius: 4px;
-    box-shadow: 0 24px 48px -18px rgba(0,0,0,0.55), 0 2px 0 rgba(0,0,0,0.15);
-    padding: clamp(1.75rem, 4vw, 3.25rem);
+    background: var(--panel);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(1.75rem, 4vw, 3rem);
     position: relative;
     min-height: 420px;
-    animation: card-in 0.35s ease;
+    overflow: hidden;
   }
-  @keyframes card-in{
-    from{ opacity: 0; transform: translateY(6px); }
-    to{ opacity: 1; transform: translateY(0); }
-  }
-  /* perforación estilo ficha de biblioteca */
   .card::before{
+    /* barra de escaneo superior */
     content: "";
     position: absolute;
-    top: 18px; left: 0; right: 0;
-    height: 1px;
-    background: repeating-linear-gradient(
-      to right, var(--line) 0 6px, transparent 6px 14px
-    );
-    opacity: 0.6;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--teal), var(--violet), transparent);
+    opacity: 0.8;
+  }
+  .section-content{
+    animation: card-in 0.4s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes card-in{
+    from{ opacity: 0; transform: translateY(10px); }
+    to{ opacity: 1; transform: translateY(0); }
   }
 
   .card .stamp{
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
     font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ochre-dark);
-    border: 1px solid var(--ochre-dark);
-    border-radius: 3px;
-    padding: 0.2rem 0.55rem;
-    margin: 1.5rem 0 1.25rem;
-    transform: rotate(-1.2deg);
+    color: var(--amber);
+    border: 1px solid rgba(245,166,35,0.35);
+    background: var(--amber-dim);
+    border-radius: 999px;
+    padding: 0.28rem 0.7rem;
+    margin: 0 0 1.15rem;
   }
 
   .card h2{
     font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
-    margin: 0 0 1.1rem;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.4vw, 2.25rem);
+    margin: 0 0 1.15rem;
+    letter-spacing: -0.01em;
     color: var(--text-main);
   }
 
   .card .content{
     font-size: 1.02rem;
     line-height: 1.7;
-    color: var(--text-main);
+    color: #D6DAE6;
   }
   .card .content p{ margin: 0 0 1rem; }
-  .card .content ul{ margin: 0 0 1rem 1.1rem; padding: 0; }
-  .card .content li{ margin-bottom: 0.5rem; }
+  .card .content ul{ margin: 0 0 1rem; padding: 0; list-style: none; }
+  .card .content li{
+    position: relative;
+    margin-bottom: 0.7rem;
+    padding-left: 1.15rem;
+  }
+  .card .content li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 0.55em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 6px 0 rgba(52,232,206,0.6);
+  }
   .card .content .muted{
-    color: var(--text-soft);
+    color: var(--text-dim);
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .card .content strong{ color: var(--text-main); }
   .card .content a{
     color: var(--teal);
     text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
+    text-underline-offset: 3px;
   }
-  .card .content a:hover{ color: var(--ochre-dark); }
+  .card .content a:hover{ color: var(--amber); }
 
-  /* placeholder de foto en biografía */
+  /* biografía */
   .bio-wrap{
     display: grid;
     grid-template-columns: 150px 1fr;
-    gap: 1.75rem;
+    gap: 1.85rem;
     align-items: start;
   }
   .bio-photo{
     width: 150px;
     height: 190px;
-    border-radius: 3px;
-    border: 1px solid var(--line);
-    background: repeating-linear-gradient(45deg, #DCD3BB, #DCD3BB 8px, #D4C9AE 8px, #D4C9AE 16px);
+    border-radius: 10px;
+    border: 1px solid var(--border-hi);
+    background:
+      linear-gradient(160deg, rgba(52,232,206,0.16), rgba(140,124,255,0.16)),
+      var(--panel-solid);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-soft);
+    font-size: 0.63rem;
+    color: var(--text-dim);
     text-align: center;
     padding: 0.5rem;
   }
@@ -251,44 +385,110 @@
     .bio-photo{ width: 120px; height: 150px; }
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
-  @media (max-width: 860px){
-    .catalog{
-      grid-template-columns: 1fr;
-    }
-    nav.drawer{
-      position: static;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 0.35rem;
-    }
-    nav.drawer .drawer-label{ grid-column: 1 / -1; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior: auto; }
-    .card{ animation: none; }
-  }
-
-  /* ============================================
-     PIE
-     ============================================ */
   footer{
+    position: relative;
+    z-index: 1;
     text-align: center;
-    color: #7B849A;
+    color: var(--text-dim);
     font-family: var(--mono);
     font-size: 0.72rem;
     padding: 1rem 1rem 2.5rem;
     letter-spacing: 0.04em;
   }
+
+  /* ============================================
+     RESPONSIVE — TABLET (641px – 1024px)
+     nav vertical -> tira horizontal desplazable arriba
+     ============================================ */
+  @media (max-width: 1024px){
+    .catalog{
+      grid-template-columns: 1fr;
+    }
+    nav.drawer{
+      position: sticky;
+      top: 0.75rem;
+      z-index: 5;
+      padding: 0.6rem;
+    }
+    .drawer-label{ display: none; }
+    .nav-list{
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      gap: 0.3rem;
+      padding-bottom: 0.15rem;
+      scrollbar-width: thin;
+    }
+    .nav-list::-webkit-scrollbar{ height: 5px; }
+    .nav-list::-webkit-scrollbar-thumb{ background: var(--border-hi); border-radius: 4px; }
+    button.tab{
+      width: auto;
+      flex: none;
+      scroll-snap-align: start;
+      padding: 0.55rem 0.8rem;
+    }
+    .nav-indicator{ top: 0; height: 100%; }
+  }
+
+  /* ============================================
+     RESPONSIVE — MÓVIL (<= 640px)
+     nav se convierte en dock inferior fijo tipo app
+     ============================================ */
+  @media (max-width: 640px){
+    .site-header{ padding-top: 1.75rem; }
+    .catalog{
+      padding: 0 0.85rem;
+      margin-bottom: 6.5rem; /* deja espacio para el dock fijo */
+    }
+    .card{ padding: 1.5rem 1.15rem; }
+
+    nav.drawer{
+      position: fixed;
+      left: 0.6rem; right: 0.6rem; bottom: 0.6rem;
+      top: auto;
+      z-index: 20;
+      border-radius: 16px;
+      padding: 0.4rem;
+      box-shadow: 0 12px 40px -12px rgba(0,0,0,0.6);
+    }
+    .nav-list{
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 0.1rem;
+    }
+    button.tab{
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      min-width: 62px;
+      padding: 0.45rem 0.4rem;
+      font-size: 0.58rem;
+      text-align: center;
+      white-space: normal;
+      line-height: 1.15;
+    }
+    button.tab .icon{ width: 19px; height: 19px; }
+    button.tab .code{ display: none; }
+    .nav-indicator{ top: 0; height: 100%; border-radius: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .section-content{ animation: none; }
+    .aurora span{ animation: none; }
+    .site-header .eyebrow .dot{ animation: none; }
+    .nav-indicator{ transition: none; }
+  }
 </style>
 </head>
 <body>
 
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="grid-overlay" aria-hidden="true"></div>
+
 <header class="site-header">
-  <p class="eyebrow">Curriculum académico · Ficha personal</p>
+  <span class="eyebrow"><span class="dot"></span> Registro académico activo · 14 archivos</span>
   <h1>Nombre Apellido</h1>
   <p class="role">Área de especialidad · Institución</p>
 </header>
@@ -296,38 +496,96 @@
 <main class="catalog">
 
   <!-- ============================================
-       NAVEGACIÓN — "guías del tarjetero"
-       Cada botón abre una sección con data-section
+       NAVEGACIÓN
+       Cada botón abre una sección con data-target.
+       El <span class="icon"> contiene el ícono de la sección.
        ============================================ -->
   <nav class="drawer" aria-label="Secciones del curriculum">
-    <p class="drawer-label">Fichero · 14 secciones</p>
-    <ul id="tab-list">
-      <li><button class="tab" data-target="biografia"><span class="code">01</span> Biografía</button></li>
-      <li><button class="tab" data-target="trayectoria"><span class="code">02</span> Trayectoria académica</button></li>
-      <li><button class="tab" data-target="experiencia"><span class="code">03</span> Experiencia profesional</button></li>
-      <li><button class="tab" data-target="lineas"><span class="code">04</span> Líneas de investigación</button></li>
-      <li><button class="tab" data-target="proyectos"><span class="code">05</span> Proyectos académicos</button></li>
-      <li><button class="tab" data-target="publicaciones"><span class="code">06</span> Publicaciones</button></li>
-      <li><button class="tab" data-target="libros"><span class="code">07</span> Libros</button></li>
-      <li><button class="tab" data-target="tesis"><span class="code">08</span> Tesis</button></li>
-      <li><button class="tab" data-target="cursos"><span class="code">09</span> Cursos</button></li>
-      <li><button class="tab" data-target="divulgacion"><span class="code">10</span> Divulgación</button></li>
-      <li><button class="tab" data-target="recursos"><span class="code">11</span> Recursos</button></li>
-      <li><button class="tab" data-target="colaboracion"><span class="code">12</span> Colaboración</button></li>
-      <li><button class="tab" data-target="reconocimientos"><span class="code">13</span> Reconocimientos</button></li>
-      <li><button class="tab" data-target="contacto"><span class="code">14</span> Contacto</button></li>
+    <p class="drawer-label">Índice · 14 secciones</p>
+    <ul class="nav-list" id="tab-list">
+      <span class="nav-indicator" id="nav-indicator" aria-hidden="true"></span>
+
+      <li><button class="tab" data-target="biografia">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></span>
+        <span class="label">Biografía</span><span class="code">01</span>
+      </button></li>
+
+      <li><button class="tab" data-target="trayectoria">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7.5L10 4l8 3.5-8 3.5-8-3.5z"/><path d="M5.5 9.2v3c0 1.5 2 3 4.5 3s4.5-1.5 4.5-3v-3"/></svg></span>
+        <span class="label">Trayectoria académica</span><span class="code">02</span>
+      </button></li>
+
+      <li><button class="tab" data-target="experiencia">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="15" height="9.5" rx="1.4"/><path d="M7 7V5.2A1.7 1.7 0 018.7 3.5h2.6A1.7 1.7 0 0113 5.2V7"/></svg></span>
+        <span class="label">Experiencia profesional</span><span class="code">03</span>
+      </button></li>
+
+      <li><button class="tab" data-target="lineas">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="M12.5 7.5L11 11l-3.5 1.5L9 9l3.5-1.5z"/></svg></span>
+        <span class="label">Líneas de investigación</span><span class="code">04</span>
+      </button></li>
+
+      <li><button class="tab" data-target="proyectos">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.5h4M8.5 2.5v4.8l-3.7 6.8a1.8 1.8 0 001.6 2.6h7.2a1.8 1.8 0 001.6-2.6l-3.7-6.8V2.5"/><path d="M6.8 12h6.4"/></svg></span>
+        <span class="label">Proyectos académicos</span><span class="code">05</span>
+      </button></li>
+
+      <li><button class="tab" data-target="publicaciones">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5h6l3.5 3.5V17a.8.8 0 01-.8.8H5a.8.8 0 01-.8-.8V3.3A.8.8 0 015 2.5z"/><path d="M6.5 9.5h7M6.5 12.2h7M6.5 14.9h4.5"/></svg></span>
+        <span class="label">Publicaciones</span><span class="code">06</span>
+      </button></li>
+
+      <li><button class="tab" data-target="libros">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.2c2-1 4.6-1 6.5 0v11.6c-1.9-1-4.5-1-6.5 0V4.2z"/><path d="M17 4.2c-2-1-4.6-1-6.5 0v11.6c1.9-1 4.5-1 6.5 0V4.2z"/></svg></span>
+        <span class="label">Libros</span><span class="code">07</span>
+      </button></li>
+
+      <li><button class="tab" data-target="tesis">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6.5" r="3.5"/><path d="M7 9.3L5.7 16.5 10 14.2l4.3 2.3L13 9.3"/></svg></span>
+        <span class="label">Tesis</span><span class="code">08</span>
+      </button></li>
+
+      <li><button class="tab" data-target="cursos">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.3" y="3" width="15.4" height="10.3" rx="1.2"/><path d="M8.2 16.8h3.6M10 13.3v3.5"/></svg></span>
+        <span class="label">Cursos</span><span class="code">09</span>
+      </button></li>
+
+      <li><button class="tab" data-target="divulgacion">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.3v3.4a1 1 0 001 1h1.3l7.7 3.4V3.9L5.3 7.3H4a1 1 0 00-1 1z"/><path d="M13.5 7.6a3 3 0 010 4.8"/><path d="M16 6a5.6 5.6 0 010 8"/></svg></span>
+        <span class="label">Divulgación</span><span class="code">10</span>
+      </button></li>
+
+      <li><button class="tab" data-target="recursos">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.3a1 1 0 011-1h3.6l1.6 1.6h7.3a1 1 0 011 1v8.1a1 1 0 01-1 1H3.5a1 1 0 01-1-1V5.3z"/></svg></span>
+        <span class="label">Recursos</span><span class="code">11</span>
+      </button></li>
+
+      <li><button class="tab" data-target="colaboracion">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="10" r="2.6"/><circle cx="14" cy="10" r="2.6"/><path d="M8.4 10h3.2"/></svg></span>
+        <span class="label">Colaboración</span><span class="code">12</span>
+      </button></li>
+
+      <li><button class="tab" data-target="reconocimientos">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="4"/><path d="M7.3 10.3L6 17l4-2 4 2-1.3-6.7"/></svg></span>
+        <span class="label">Reconocimientos</span><span class="code">13</span>
+      </button></li>
+
+      <li><button class="tab" data-target="contacto">
+        <span class="icon"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.3" y="4.5" width="15.4" height="11" rx="1.2"/><path d="M2.8 5.5l7.2 5.5 7.2-5.5"/></svg></span>
+        <span class="label">Contacto</span><span class="code">14</span>
+      </button></li>
     </ul>
   </nav>
 
   <!-- ============================================
-       FICHA — contenido de cada sección
+       CONTENIDO DE CADA SECCIÓN
        Para editar: cambia el texto dentro de cada
        <div class="content"> ... </div>
        ============================================ -->
   <section class="card">
 
     <article id="biografia" class="section-content">
-      <span class="stamp">Ficha 01 · Biografía</span>
+      <span class="stamp">01 · Biografía</span>
       <h2>Biografía</h2>
       <div class="content bio-wrap">
         <div class="bio-photo">FOTO<br>150 × 190 px</div>
@@ -347,7 +605,7 @@
     </article>
 
     <article id="trayectoria" class="section-content" hidden>
-      <span class="stamp">Ficha 02 · Trayectoria académica</span>
+      <span class="stamp">02 · Trayectoria académica</span>
       <h2>Trayectoria académica</h2>
       <div class="content">
         <ul>
@@ -360,7 +618,7 @@
     </article>
 
     <article id="experiencia" class="section-content" hidden>
-      <span class="stamp">Ficha 03 · Experiencia profesional</span>
+      <span class="stamp">03 · Experiencia profesional</span>
       <h2>Experiencia profesional</h2>
       <div class="content">
         <ul>
@@ -371,7 +629,7 @@
     </article>
 
     <article id="lineas" class="section-content" hidden>
-      <span class="stamp">Ficha 04 · Líneas de investigación</span>
+      <span class="stamp">04 · Líneas de investigación</span>
       <h2>Líneas de investigación</h2>
       <div class="content">
         <ul>
@@ -383,7 +641,7 @@
     </article>
 
     <article id="proyectos" class="section-content" hidden>
-      <span class="stamp">Ficha 05 · Proyectos académicos</span>
+      <span class="stamp">05 · Proyectos académicos</span>
       <h2>Proyectos académicos</h2>
       <div class="content">
         <ul>
@@ -394,7 +652,7 @@
     </article>
 
     <article id="publicaciones" class="section-content" hidden>
-      <span class="stamp">Ficha 06 · Publicaciones</span>
+      <span class="stamp">06 · Publicaciones</span>
       <h2>Publicaciones</h2>
       <div class="content">
         <ul>
@@ -406,7 +664,7 @@
     </article>
 
     <article id="libros" class="section-content" hidden>
-      <span class="stamp">Ficha 07 · Libros</span>
+      <span class="stamp">07 · Libros</span>
       <h2>Libros</h2>
       <div class="content">
         <ul>
@@ -417,7 +675,7 @@
     </article>
 
     <article id="tesis" class="section-content" hidden>
-      <span class="stamp">Ficha 08 · Tesis</span>
+      <span class="stamp">08 · Tesis</span>
       <h2>Tesis dirigidas</h2>
       <div class="content">
         <ul>
@@ -428,7 +686,7 @@
     </article>
 
     <article id="cursos" class="section-content" hidden>
-      <span class="stamp">Ficha 09 · Cursos</span>
+      <span class="stamp">09 · Cursos</span>
       <h2>Cursos impartidos</h2>
       <div class="content">
         <ul>
@@ -439,7 +697,7 @@
     </article>
 
     <article id="divulgacion" class="section-content" hidden>
-      <span class="stamp">Ficha 10 · Divulgación</span>
+      <span class="stamp">10 · Divulgación</span>
       <h2>Divulgación</h2>
       <div class="content">
         <ul>
@@ -450,7 +708,7 @@
     </article>
 
     <article id="recursos" class="section-content" hidden>
-      <span class="stamp">Ficha 11 · Recursos</span>
+      <span class="stamp">11 · Recursos</span>
       <h2>Recursos</h2>
       <div class="content">
         <ul>
@@ -462,7 +720,7 @@
     </article>
 
     <article id="colaboracion" class="section-content" hidden>
-      <span class="stamp">Ficha 12 · Colaboración</span>
+      <span class="stamp">12 · Colaboración</span>
       <h2>Colaboración</h2>
       <div class="content">
         <ul>
@@ -473,7 +731,7 @@
     </article>
 
     <article id="reconocimientos" class="section-content" hidden>
-      <span class="stamp">Ficha 13 · Reconocimientos</span>
+      <span class="stamp">13 · Reconocimientos</span>
       <h2>Reconocimientos</h2>
       <div class="content">
         <ul>
@@ -484,7 +742,7 @@
     </article>
 
     <article id="contacto" class="section-content" hidden>
-      <span class="stamp">Ficha 14 · Contacto</span>
+      <span class="stamp">14 · Contacto</span>
       <h2>Contacto</h2>
       <div class="content">
         <ul>
@@ -504,30 +762,67 @@
 
 <script>
   // ============================================
-  // Navegación entre secciones (sin recargar la página)
+  // Navegación entre secciones + indicador animado
   // ============================================
-  const tabs = document.querySelectorAll('.tab');
+  const tabs = Array.from(document.querySelectorAll('.tab'));
   const sections = document.querySelectorAll('.section-content');
+  const navList = document.getElementById('tab-list');
+  const indicator = document.getElementById('nav-indicator');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function showSection(id){
+  function moveIndicator(btn){
+    if(!btn) return;
+    const isRow = getComputedStyle(navList).flexDirection === 'row';
+    if(isRow){
+      indicator.style.width = btn.offsetWidth + 'px';
+      indicator.style.height = btn.offsetHeight + 'px';
+      indicator.style.transform = `translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
+    }else{
+      indicator.style.width = btn.offsetWidth + 'px';
+      indicator.style.height = btn.offsetHeight + 'px';
+      indicator.style.transform = `translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
+    }
+  }
+
+  function showSection(id, { scroll = false } = {}){
     sections.forEach(sec => sec.hidden = (sec.id !== id));
-    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === id));
-    // actualiza el hash en la URL para permitir enlaces directos
+    let activeBtn = null;
+    tabs.forEach(tab => {
+      const isActive = tab.dataset.target === id;
+      tab.classList.toggle('active', isActive);
+      if(isActive) activeBtn = tab;
+    });
+    if(activeBtn){
+      moveIndicator(activeBtn);
+      if(activeBtn.scrollIntoView){
+        activeBtn.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
     history.replaceState(null, '', '#' + id);
+    if(scroll){
+      document.querySelector('.card').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+    }
   }
 
   tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      showSection(tab.dataset.target);
-      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    tab.addEventListener('click', () => showSection(tab.dataset.target, { scroll: true }));
   });
 
-  // Al cargar: abre la sección indicada en el hash de la URL,
-  // o "biografia" por defecto (página de inicio)
+  window.addEventListener('resize', () => {
+    const current = document.querySelector('.tab.active');
+    if(current) moveIndicator(current);
+  });
+
   const initial = window.location.hash.replace('#', '');
   const validIds = Array.from(sections).map(s => s.id);
-  showSection(validIds.includes(initial) ? initial : 'biografia');
+  const startId = validIds.includes(initial) ? initial : 'biografia';
+
+  // Espera a que fuentes/layout estén listos para medir posiciones correctamente
+  window.addEventListener('DOMContentLoaded', () => {
+    showSection(startId);
+    requestAnimationFrame(() => moveIndicator(document.querySelector('.tab.active')));
+  });
+  window.addEventListener('load', () => moveIndicator(document.querySelector('.tab.active')));
 </script>
 
 </body>
