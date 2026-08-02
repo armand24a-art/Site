@@ -160,6 +160,22 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    border-right: 3px solid var(--teal);
+    padding-right: 5px;
+  }
+  .site-header h1.typing-cursor{
+    animation: caret-blink 0.85s step-end infinite;
+  }
+  @keyframes caret-blink{
+    50%{ border-color: transparent; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .site-header h1{ border-right-color: transparent; }
   }
   .site-header p.role{
     font-family: var(--body);
@@ -581,7 +597,7 @@
 
 <header class="site-header">
   <span class="eyebrow"><span class="dot"></span> Registro académico activo · 14 archivos</span>
-  <h1>Armando Avalos Jiménez</h1>
+  <h1 id="hero-name">Armando Avalos Jiménez</h1>
   <p class="role">Doctor en Ciencias Ambientales · El Colegio de la Frontera Sur (ECOSUR), Unidad Villahermosa</p>
   <p class="role" style="margin-top:0.35rem;">Departamento de Observación y Estudio de la Tierra, la Atmósfera y el Océano</p>
   <p class="header-links">
@@ -1199,8 +1215,8 @@
       <h2>Contacto</h2>
       <div class="content">
         <ul>
-          <li><strong>Correo:</strong> <a href="mailto:tucorreo@institucion.edu">armando.avalos@guest.ecosur.mx</a></li>
-          <li><strong>Institución:</strong> El Colegio de la Frontera Sur, Departamento de Observación y Estudio de la Tierra, la Atmósfera y el Océano</li>
+          <li><strong>Correo:</strong> <a href="mailto:tucorreo@institucion.edu">tucorreo@institucion.edu</a></li>
+          <li><strong>Institución:</strong> Nombre de la institución, departamento.</li>
           <li><strong>Perfil académico:</strong> <a href="#" target="_blank" rel="noopener">enlace a ORCID / Google Scholar / ResearchGate</a></li>
         </ul>
       </div>
@@ -1214,6 +1230,35 @@
 </footer>
 
 <script>
+  // ============================================
+  // Efecto de "escritura" en el nombre del encabezado
+  // ============================================
+  function initTypewriter(){
+    const el = document.getElementById('hero-name');
+    if(!el) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fullWidth = el.scrollWidth;
+
+    if(prefersReduced){
+      el.style.width = fullWidth + 'px';
+      return;
+    }
+
+    el.style.width = '0px';
+    el.classList.add('typing-cursor');
+
+    setTimeout(() => {
+      el.style.transition = 'width 1.8s steps(24, end)';
+      el.style.width = fullWidth + 'px';
+    }, 250);
+  }
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(initTypewriter);
+  }else{
+    window.addEventListener('load', initTypewriter);
+  }
+
   // ============================================
   // Navegación entre secciones + indicador animado
   // ============================================
