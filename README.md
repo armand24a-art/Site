@@ -65,23 +65,21 @@ edita:
 <p class="role">Área de especialidad · Institución</p>
 ```
 
-### Agregar tu foto
+### Cambiar tu foto
 
-En la sección de biografía hay un recuadro con el texto "FOTO 150 × 190 px".
-Para poner tu foto real:
+La foto ya está integrada en `img/armando.jpg` y enlazada desde la sección de
+biografía. Si quieres reemplazarla más adelante:
 
-1. Sube tu imagen a una carpeta `img/` dentro del proyecto (por ejemplo `img/foto.jpg`).
-2. Reemplaza:
-
-```html
-<div class="bio-photo">FOTO<br>150 × 190 px</div>
-```
-
-por:
+1. Sube la nueva imagen a la carpeta `img/` (puedes conservar el mismo nombre
+   `armando.jpg` para no tener que tocar el HTML, o usar uno nuevo).
+2. Si usas un nombre distinto, actualiza esta línea dentro de `index.html`:
 
 ```html
-<img class="bio-photo" src="img/foto.jpg" alt="Foto de Nombre Apellido" style="object-fit:cover;">
+<img class="bio-photo" src="img/armando.jpg" alt="Armando Avalos Jiménez">
 ```
+
+La imagen se recorta automáticamente para llenar el recuadro (150 × 190 px)
+mostrando la parte superior de la foto (rostro y hombros).
 
 ### Cambiar el orden o el nombre de una sección
 

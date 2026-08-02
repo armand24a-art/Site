@@ -391,6 +391,11 @@
     background:
       linear-gradient(160deg, rgba(52,232,206,0.16), rgba(140,124,255,0.16)),
       var(--panel-solid);
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .bio-photo.placeholder{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -616,7 +621,7 @@
       <span class="stamp">01 · Biografía</span>
       <h2>Biografía</h2>
       <div class="content bio-wrap">
-        <div class="bio-photo">FOTO<br>150 × 190 px</div>
+        <img class="bio-photo" src="img/armando.jpg" alt="Armando Avalos Jiménez">
         <div>
           <p>
             Doctor en Ciencias Ambientales por la Universidad Autónoma de Nayarit (México) con una sólida
